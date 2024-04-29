@@ -11,6 +11,9 @@ return {
     -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
     { 'folke/neodev.nvim', opts = {} },
+
+    -- schemastore
+    'b0o/schemastore.nvim',
   },
   config = function()
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -119,10 +122,30 @@ return {
           new_config.settings.yaml.schemas = vim.tbl_deep_extend('force', new_config.settings.yaml.schemas or {}, require('schemastore').yaml.schemas())
         end,
         settings = {
-          redhat = { telemetry = { enabled = false } },
           yaml = {
+            completion = true,
+
+            customTags = {
+              '!fn',
+              '!And',
+              '!If',
+              '!Not',
+              '!Equals',
+              '!Or',
+              '!FindInMap sequence',
+              '!Base64',
+              '!Cidr',
+              '!Ref',
+              '!Ref Scalar',
+              '!Sub',
+              '!GetAtt',
+              '!GetAZs',
+              '!ImportValue',
+              '!Select',
+              '!Split',
+              '!Join sequence',
+            },
             hover = true,
-            customTags = { '!Ref', '!Sub', '!If', '!Equals', '!Not', '!And', '!Or' },
             keyOrdering = false,
             format = {
               enable = true,
@@ -130,6 +153,8 @@ return {
             validate = true,
             schemaStore = {
               enable = true,
+              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+              url = '',
             },
           },
         },
@@ -137,9 +162,11 @@ return {
       -- Other servers...
       pyright = {
         single_file_support = false,
-        on_new_config = function(cfg, root)
-          print(root)
+        root_dir = function(fname)
+          -- return current working dir
+          return vim.loop.cwd()
         end,
+        on_new_config = function(cfg, root) end,
       },
       pylsp = {
         settings = {
@@ -184,4 +211,16 @@ return {
       },
     }
   end,
+  setup = {
+    yamlls = function()
+      -- Neovim < 0.10 does not have dynamic registration for formatting
+      if vim.fn.has 'nvim-0.10' == 0 then
+        vim.lsp.on_attach(function(client, _)
+          if client.name == 'yamlls' then
+            client.server_capabilities.documentFormattingProvider = true
+          end
+        end)
+      end
+    end,
+  },
 }
