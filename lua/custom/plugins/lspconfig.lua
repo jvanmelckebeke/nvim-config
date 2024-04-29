@@ -92,6 +92,20 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+    require('lspconfig.configs').cfn_lsp = {
+      default_config = {
+        cmd = { os.getenv 'HOME' .. '/.local/bin/cfn-lsp-extra' },
+        filetypes = { 'yaml.cloudformation', 'json.cloudformation' },
+        root_dir = function(fname)
+          return require('lspconfig').util.find_git_ancestor(fname) or vim.fn.getcwd()
+        end,
+        settings = {
+          documentFormatting = false,
+        },
+      },
+    }
+    require('lspconfig').cfn_lsp.setup {}
+
     local servers = {
       -- Add specific server configurations here
       lua_ls = {
@@ -108,6 +122,11 @@ return {
           },
         },
       },
+
+      -- cfn-lint gets used by cfn_lsp under the hood
+      -- ['cfn-lint'] = {
+      --   filetypes = { 'yaml.cloudformation', 'json.cloudformation' },
+      -- },
 
       yamlls = {
         capabilities = {
