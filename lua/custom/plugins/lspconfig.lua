@@ -170,7 +170,15 @@ return {
               enable = true,
             },
             validate = true,
+            schemas = {
+              ['https://json.schemastore.org/github-workflow.json'] = '/.github/workflows/*',
+            },
             schemaStore = {
+              enable = true,
+              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+              url = '',
+            },
+            schemaDownload = {
               enable = true,
               -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
               url = '',
