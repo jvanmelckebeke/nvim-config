@@ -10,7 +10,18 @@ return {
     '3rd/image.nvim',
   },
   config = function()
-    require('neo-tree').setup {}
+    require('neo-tree').setup {
+      filesystem = {
+        filtered_items = {
+          always_show = {
+            '.github',
+            '.gitignore',
+            '.gitmodules',
+            '.dockerignore',
+          },
+        },
+      },
+    }
 
     vim.api.nvim_set_keymap('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true })
   end,

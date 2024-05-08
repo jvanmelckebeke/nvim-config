@@ -213,6 +213,10 @@ return {
             },
           },
         },
+        root_dir = function(fname)
+          -- return current working dir
+          return vim.loop.cwd()
+        end,
       },
     }
 
