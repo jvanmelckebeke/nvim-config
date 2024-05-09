@@ -8,6 +8,14 @@ return {
   ft = { 'yaml' },
   config = function()
     local cfg = require('yaml-companion').setup {
+      schemas = {
+        {
+          name = 'github actions',
+          description = 'github actions',
+          filematch = { '.github/workflows/*.yml' },
+          url = 'https://json.schemastore.org/github-workflow.json',
+        },
+      },
       lspconfig = {
         flags = {
           debounce_text_changes = 150,
@@ -30,7 +38,7 @@ return {
       },
     }
 
-    require('lspconfig').yamlls.setup(cfg)
+    require('lspconfig')['yamlls'].setup(cfg)
 
     require('telescope').load_extension 'yaml_schema'
   end,

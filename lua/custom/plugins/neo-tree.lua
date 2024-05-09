@@ -18,6 +18,8 @@ return {
             '.gitignore',
             '.gitmodules',
             '.dockerignore',
+            '.env',
+            '.env.*',
           },
         },
       },
