@@ -7,3 +7,6 @@ vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true, silent = true }
 
 -- space + f does telescope live_grep
 vim.api.nvim_set_keymap('n', '<Space>f', ':Telescope live_grep<CR>', { noremap = true, silent = true })
+
+-- tabs should be spaces
+vim.api.nvim_set_option('expandtab', true)
