@@ -3,6 +3,7 @@ return {
   event = {
     'BufReadPre',
     'BufNewFile',
+    'BufEnter',
   },
   config = function()
     local lint = require 'lint'
@@ -14,6 +15,7 @@ return {
       typescriptreact = { 'eslint_d' },
       svelte = { 'eslint_d' },
       python = { 'pylint' },
+      markdown = { 'markdownlint' },
     }
 
     lint.linters.pylint.cmd = '/usr/bin/pylint'

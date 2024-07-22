@@ -1,4 +1,3 @@
-require 'custom.config.filetype'
 -- Set up key mappings in Normal, Insert, and Visual modes
 -- when shift tab is pressed, indent left
 vim.api.nvim_set_keymap('n', '<S-Tab>', '<<', { noremap = true, silent = true })
